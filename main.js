@@ -1,37 +1,40 @@
-
-// Counter
-
-function ttPagePreloader() {
+// Check if the environment is production
+const isProduction = true; // Change to false in development environment
+if (isProduction) {
+  console.log("In production environment. Preloader will run.");
+  function ttPagePreloader() {
   
-  let $overlay = $(".overlay");
-  let $counterElement = $(".counter");
-  let $progressElement = $(".progress-bar");
+    let $overlay = $(".overlay");
+    let $counterElement = $(".counter");
+    let $progressElement = $(".progress-bar");
+    
+    let $count = 0;
+    let $counter = setInterval(function() {
+      if ($count < 101) {
+        $counterElement.text($count + '%');
+        $progressElement.css('width', $count + '%');
+        $count ++; 
+      } else {
+        clearInterval($counter);
+      }
   
-  let $count = 0;
-  let $counter = setInterval(function() {
-    if ($count < 101) {
-      $counterElement.text($count + '%');
-      $progressElement.css('width', $count + '%');
-      $count ++; 
-    } else {
-      clearInterval($counter);
-    }
-
-    // If ready
-    if ($count > 100) {
-      $counterElement.addClass("ready");
-
-      // Animations
-      let tl_transitIn = gsap.timeline({ defaults: { duration: 1.2, ease: Expo.easeInOut }});
-        tl_transitIn.to($counterElement, { autoAlpha: 0 });
-        tl_transitIn.to($overlay, { scaleY: 0, transformOrigin: "center top" });
-    }
-
-  }, 20); // Speed
-
+      // If ready
+      if ($count > 100) {
+        $counterElement.addClass("ready");
+  
+        // Animations
+        let tl_transitIn = gsap.timeline({ defaults: { duration: 1.2, ease: Expo.easeInOut }});
+          tl_transitIn.to($counterElement, { autoAlpha: 0 });
+          tl_transitIn.to($overlay, { scaleY: 0, transformOrigin: "center top" });
+      }
+  
+    }, 20); // Speed
+  
+  }
+  ttPagePreloader();
+} else {
+  console.log("In development environment. Preloader won't run.");
 }
-ttPagePreloader();
-
 
 //HOME page
 
